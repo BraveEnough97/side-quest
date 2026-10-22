@@ -16,16 +16,16 @@ class GameServerController extends Controller
 
     public function index(Request $request)
     {
-        $servers = $this->defaultServers;
+        $servers = session('mock_servers', $this->defaultServers);
 
         return inertia('MainDashboard', [
             'servers' => $servers //GameServer::all() // Passes fresh database records to Vue
         ]);
     }
 
-    public function start()
+    public function start(Request $request, $id)
     {
-        $servers = $this->defaultServers;
+        $servers = session('mock_servers', $this->defaultServers);
 
         $servers = collect($servers)->map(function ($server) use ($id) {
             if ($server['id'] == $id) {
@@ -37,6 +37,24 @@ class GameServerController extends Controller
 
         $request->session()->put('mock_servers', $servers);
 
-        return redirect()->back();    
+        return redirect()->back(); 
     }
+
+    public function stop(Request $request, $id)
+    {
+        $servers = session('mock_servers', $this->defaultServers);
+
+        $servers = collect($servers)->map(function ($server) use ($id) {
+            if ($server['id'] == $id) {
+                $server['status'] = 'stopped';
+                $server['players'] = '0/16';
+            }
+            return $server;
+        })->all();
+
+        $request->session()->put('mock_servers', $servers);
+
+        return redirect()->back();
+    }
+
 }
