@@ -21,7 +21,7 @@ const servers = ref([
 // Actions to simulate starting and stopping servers
 const startServer = (id) => {
 
-    router.post('/servers/${id}/start', {}, {
+    router.post(`/servers/${id}/start`, {}, {
         preserveScroll: true,
         // Update button text so user knows background stuff is happening
         onStart: () => {
@@ -29,20 +29,11 @@ const startServer = (id) => {
             if (server) server.status = 'starting'
         }
     })
-/*
-    const server = servers.value.find(s => s.id === id)
-    if (server) {
-        server.status = 'starting'
-        setTimeout(() => {
-            server.status = 'running'
-        }, 1200) // Simulate a brief provisioning delay
-    }
-*/
 }
 
 const stopServer = (id) => {
 
-    router.post('/servers/${id}/stop', {}, {
+    router.post(`/servers/${id}/stop`, {}, {
         preserveScroll: true,
         // Update button text so user knows background stuff is happening
         onStart: () => {
@@ -50,17 +41,6 @@ const stopServer = (id) => {
             if (server) server.status = 'stopping'
         }
     })
-
-/*
-    const server = servers.value.find(s => s.id === id)
-    if (server) {
-        server.status = 'stopping'
-        setTimeout(() => {
-            server.status = 'stopped'
-            server.players = '0/16'
-        }, 1000)
-    }
-*/
 }
 
 </script>
